@@ -94,11 +94,14 @@ function doSomething(e){
 		}
 		else {
 			var elem = document.getElementById(x);
+			console.log(elem.style.backgroundColor);
 			elem.style.backgroundColor = "#EEEEEE";
 			for(var tr1 = rowNum - 1; tr1 < rowNum + 2; tr1++){
 				for(var tr2 = colNum - 1; tr1 < colNum + 2; tr2++){
 					if(tr1 >= 0 && tr1 < rows && tr2 >= 0 && tr2 < cols && !(grid[tr1][tr2].revealed) ){
-						eventFire(document.getElementById("r" + tr1.toString() + "c" + tr2.toString()), 'click');
+						//eventFire(document.getElementById("r" + tr1.toString() + "c" + tr2.toString()), 'click');
+						var thisElem = document.getElementById("r" + tr1.toString() + "c" + tr2.toString());
+						thisElem.click();
 						//Simulate click on grid[tr1][tr2] that is on element with id r<tr1>c<tr2>
 					}
 				}
@@ -108,12 +111,12 @@ function doSomething(e){
 	}
 }
 
-function eventFire(el, etype){
-  if (el.fireEvent) {
-    el.fireEvent('on' + etype);
-  } else {
-    var evObj = document.createEvent('Events');
-    evObj.initEvent(etype, true, false);
-    el.dispatchEvent(evObj);
-  }
-}
+//function eventFire(el, etype){
+//  if (el.fireEvent) {
+//    el.fireEvent('on' + etype);
+//  } else {
+//    var evObj = document.createEvent('Events');
+//    evObj.initEvent(etype, true, false);
+//    el.dispatchEvent(evObj);
+//  }
+//}
