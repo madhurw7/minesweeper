@@ -21,7 +21,7 @@ var grid = make2DArray(rows, cols);
 for(var i = 0; i < rows; i++){
 		for(var j = 0; j < cols; j++){
 			//grid[i][j].revealed = false; //Setting the reveal property to false
-			if (Math.random() < 0.3){
+			if (Math.random() < 0.1){
 				grid[i][j].trap = true; //Planting the traps
 			}
 		}
@@ -53,10 +53,67 @@ for(var i = 0; i < rows; i++){
 for(var i = 0; i < rows; i++){
 	for(var j = 0; j < cols; j++){
 		var temp = document.getElementById("r" + i.toString() + "c" + j.toString())	
-		temp.addEventListener("click", function() {doSomething(grid, i, j)}, false); 
+		temp.addEventListener("click", doSomething, false); 
 	}
 }
 
-function doSomething(arr, i, j){
-	console.log(arr[i][j].revealed); 
+function doSomething(e){
+	var x = e.target.id;
+	var rn = "";
+	var cn = "";
+	for(var t = 1; t < 3; t++){
+		if (x[t] != "c"){
+			rn += x[t];
+		}
+		
+	}
+	if (x[2] == "c")
+		for(var t = 3; t < x.length; t++){cn += x[t]}
+	else for(var t = 4; t < x.length; t++){cn += x[t]};
+		
+	var rowNum = eval(rn);
+	var colNum = eval(cn);
+	console.log(rowNum);
+	console.log(colNum);
+	console.log(grid[rowNum][colNum].trap);
+	grid[rowNum][colNum].revealed = true;
+	if (grid[rowNum][colNum].trap == true){
+		for(rT = 0; rT < rows; rT++){
+			for(cT = 0; cT < cols; cT++){
+				if(grid[rT][cT].trap){
+					document.getElementById("r" + rT.toString() + "c" + cT.toString()).innerHTML = '<img src = "mine.jpg">';
+				}
+			}
+		}
+		alert("Game Over!");
+	}
+	else{
+		if (grid[rowNum][colNum].surround != 0){
+			document.getElementById(x).innerHTML =  grid[rowNum][colNum].surround.toString();
+			
+		}
+		else {
+			var elem = document.getElementById(x);
+			elem.style.backgroundColor = "#EEEEEE";
+			for(var tr1 = rowNum - 1; tr1 < rowNum + 2; tr1++){
+				for(var tr2 = colNum - 1; tr1 < colNum + 2; tr2++){
+					if(tr1 >= 0 && tr1 < rows && tr2 >= 0 && tr2 < cols && !(grid[tr1][tr2].revealed) ){
+						eventFire(document.getElementById("r" + tr1.toString() + "c" + tr2.toString()), 'click');
+						//Simulate click on grid[tr1][tr2] that is on element with id r<tr1>c<tr2>
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+function eventFire(el, etype){
+  if (el.fireEvent) {
+    el.fireEvent('on' + etype);
+  } else {
+    var evObj = document.createEvent('Events');
+    evObj.initEvent(etype, true, false);
+    el.dispatchEvent(evObj);
+  }
 }
