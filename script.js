@@ -111,18 +111,3 @@ function doSomething(e){
 		
 	}
 }
-
-//function eventFire(el, etype){
-//  if (el.fireEvent) {
-//    el.fireEvent('on' + etype);
-//  } else {
-//    var evObj = document.createEvent('Events');
-//    evObj.initEvent(etype, true, false);
-//    el.dispatchEvent(evObj);
-//  }
-//}
-
-//eventFire(document.getElementById("r" + tr1.toString() + "c" + tr2.toString()), 'click');
-// var thisElem = document.getElementById("r" + tr1.toString() + "c" + tr2.toString());
-// thisElem.click();
-//Simulate click on grid[tr1][tr2] that is on element with id r<tr1>c<tr2>
