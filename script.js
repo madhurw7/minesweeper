@@ -1,4 +1,4 @@
-function make2DArray(rows, cols){
+function make2DArray(rows, cols) {
 	var arr = new Array(rows);
 	for (var i = 0; i < arr.length; i++){
 		arr[i] = new Array(cols);
@@ -13,9 +13,7 @@ function make2DArray(rows, cols){
 	return arr;
 }
 
-var grid;
-
-var rows  = 15, cols = 15, w = 20;
+var rows  = 15, cols = 15;
 
 var grid = make2DArray(rows, cols);
 for(var i = 0; i < rows; i++){
@@ -26,7 +24,7 @@ for(var i = 0; i < rows; i++){
 			}
 		}
 	}
-
+//Counting the number of traps around it
 for(var i = 0; i < rows; i++){
 	for (var j = 0; j < cols; j++){
 		for (var t1 = i - 1; t1 <= i + 1; t1++){
@@ -92,21 +90,24 @@ function doSomething(e){
 			document.getElementById(x).innerHTML =  grid[rowNum][colNum].surround.toString();
 			
 		}
-		else {
+		else if (grid[rowNum][colNum].surround == 0){
 			var elem = document.getElementById(x);
 			console.log(elem.style.backgroundColor);
-			elem.style.backgroundColor = "#EEEEEE";
-			for(var tr1 = rowNum - 1; tr1 < rowNum + 2; tr1++){
-				for(var tr2 = colNum - 1; tr1 < colNum + 2; tr2++){
-					if(tr1 >= 0 && tr1 < rows && tr2 >= 0 && tr2 < cols && !(grid[tr1][tr2].revealed) ){
-						//eventFire(document.getElementById("r" + tr1.toString() + "c" + tr2.toString()), 'click');
-						var thisElem = document.getElementById("r" + tr1.toString() + "c" + tr2.toString());
-						thisElem.click();
-						//Simulate click on grid[tr1][tr2] that is on element with id r<tr1>c<tr2>
-					}
-				}
-			}
+			elem.style.backgroundColor = "#EFEFEF";
+
+			if((rowNum - 1 >= 0) &&  (colNum - 1) >= 0 && !(grid[rowNum - 1][colNum - 1].revealed) ) document.getElementById("r" + (rowNum - 1) + "c" + (colNum - 1)).click(); 
+			if(rowNum - 1 >= 0 && !(grid[rowNum - 1][colNum].revealed)) document.getElementById("r" + (rowNum - 1) + "c" + colNum).click();
+			if((rowNum - 1 >= 0) &&  (colNum + 1) < cols && !(grid[rowNum - 1][colNum + 1].revealed)) document.getElementById("r" + (rowNum - 1) + "c" + (colNum + 1)).click(); 
+			if((colNum - 1) >= 0 && !(grid[rowNum][colNum - 1].revealed)) document.getElementById("r" + (rowNum) + "c" + (colNum - 1)).click(); 
+			if((colNum + 1) < cols && !(grid[rowNum][colNum + 1].revealed)) document.getElementById("r" + (rowNum) + "c" + (colNum + 1)).click(); 
+			if((rowNum + 1 < rows) &&  (colNum - 1) >= 0 && !(grid[rowNum + 1][colNum - 1].revealed)) document.getElementById("r" + (rowNum + 1) + "c" + (colNum - 1)).click(); 
+			if((rowNum + 1 < rows) && !(grid[rowNum + 1][colNum].revealed)) document.getElementById("r" + (rowNum + 1) + "c" + (colNum)).click(); 
+			if((rowNum + 1 < rows) &&  (colNum + 1) < cols && !(grid[rowNum + 1][colNum + 1].revealed)) document.getElementById("r" + (rowNum + 1) + "c" + (colNum + 1)).click(); 
+			
+			
 		}
+			
+		
 		
 	}
 }
@@ -120,3 +121,8 @@ function doSomething(e){
 //    el.dispatchEvent(evObj);
 //  }
 //}
+
+//eventFire(document.getElementById("r" + tr1.toString() + "c" + tr2.toString()), 'click');
+// var thisElem = document.getElementById("r" + tr1.toString() + "c" + tr2.toString());
+// thisElem.click();
+//Simulate click on grid[tr1][tr2] that is on element with id r<tr1>c<tr2>
