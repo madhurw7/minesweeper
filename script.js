@@ -51,7 +51,8 @@ for(var i = 0; i < rows; i++){
 for(var i = 0; i < rows; i++){
 	for(var j = 0; j < cols; j++){
 		var temp = document.getElementById("r" + i.toString() + "c" + j.toString())	
-		temp.addEventListener("click", doSomething, false); 
+		temp.addEventListener("click", doSomething, false);
+		temp.addEventListener("contextmenu", mark, false);
 	}
 }
 
@@ -93,7 +94,7 @@ function doSomething(e){
 		else if (grid[rowNum][colNum].surround == 0){
 			var elem = document.getElementById(x);
 			console.log(elem.style.backgroundColor);
-			elem.style.backgroundColor = "#EFEFEF";
+			elem.style.backgroundColor = "rgb(250, 250, 250)";
 
 			if((rowNum - 1 >= 0) &&  (colNum - 1) >= 0 && !(grid[rowNum - 1][colNum - 1].revealed) ) document.getElementById("r" + (rowNum - 1) + "c" + (colNum - 1)).click(); 
 			if(rowNum - 1 >= 0 && !(grid[rowNum - 1][colNum].revealed)) document.getElementById("r" + (rowNum - 1) + "c" + colNum).click();
@@ -110,4 +111,31 @@ function doSomething(e){
 		
 		
 	}
+}
+
+function mark(e){
+	var x = e.target.id;
+	var rn = "";
+	var cn = "";
+	for(var t = 1; t < 3; t++){
+		if (x[t] != "c"){
+			rn += x[t];
+		}
+		
+	}
+	if (x[2] == "c")
+		for(var t = 3; t < x.length; t++){cn += x[t]}
+	else for(var t = 4; t < x.length; t++){cn += x[t]};
+		
+	var rowNum = eval(rn);
+	var colNum = eval(cn);
+	console.log(rowNum);
+	console.log(colNum);
+	console.log(grid[rowNum][colNum].trap);
+	
+	var elem = document.getElementById(x);
+			console.log(elem.style.backgroundColor);
+			elem.style.backgroundColor = "rgba(128, 0, 256, 0.5)";
+	
+
 }
